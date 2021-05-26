@@ -219,18 +219,9 @@ IPython.display.Audio(ks_chord(hdn_chord, Fs * 4, 0.995), rate=Fs)
 # 
 # How would you describe what's happening here?
 
-# In[24]:
-
-
 a = np.random.rand(100)
 b = np.random.rand(80)
 c = np.concatenate((a, a, a, a)) + np.concatenate((b, b, b, b, b))
 
 IPython.display.Audio(KS_1(c, Fs * 2), rate=Fs)
-
-
-# In[ ]:
-
-
-
 
