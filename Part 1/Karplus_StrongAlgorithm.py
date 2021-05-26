@@ -98,9 +98,6 @@ IPython.display.Audio(KS_2(np.random.rand(50), Fs * 2), rate=Fs)
 #     y[n] = x[n] + \alpha y[n - M]
 # $$
 
-# In[20]:
-
-
 def KS_3(x, N, alpha = 0.99):
     M = len(x)
     y = np.zeros(N)
@@ -112,14 +109,8 @@ def KS_3(x, N, alpha = 0.99):
 
 # If we now plot the resulting K-S output, we can see the decaying envelope:
 
-# In[21]:
-
-
 y = KS_3(b, Fs * 2);
 plt.stem(y[0:2000]);
-
-
-# In[15]:
 
 
 IPython.display.Audio(y, rate=Fs)
@@ -131,21 +122,14 @@ IPython.display.Audio(y, rate=Fs)
 # $$
 # (think about it and it will make sense). What that means is that the decay envelope is dependent on both $\alpha$ *and* $M$ or, in other words, the higher the pitch of the note, the faster its decay. For instance:
 
-# In[16]:
-
 
 IPython.display.Audio(KS_3(np.random.rand(50), Fs * 2), rate=Fs)
-
-
-# In[17]:
 
 
 IPython.display.Audio(KS_3(np.random.rand(10), Fs * 2), rate=Fs)
 
 
 # This is no good and therefore we need to compensate so that, if $\alpha$ is the same, the decay rate is the same. This leads us to the last implementation of the K-S algorithm:
-
-# In[16]:
 
 
 def KS(x, N, alpha = 0.99):
@@ -161,13 +145,7 @@ def KS(x, N, alpha = 0.99):
     return y
 
 
-# In[19]:
-
-
 IPython.display.Audio(KS(np.random.rand(50), Fs * 2), rate=Fs)
-
-
-# In[22]:
 
 
 IPython.display.Audio(KS(np.random.rand(10), Fs * 2), rate=Fs)
@@ -186,8 +164,6 @@ IPython.display.Audio(KS(np.random.rand(10), Fs * 2), rate=Fs)
 # 
 # Each note is generated using a separate Karplus-Strong algorithm. We try to mix the different "instruments" by assigning a
 # different gain to each note. Also, we sustain Paul's D note on the bass a bit longer by changing the corresponding decay factor.
-
-# In[ ]:
 
 
 def freq(note):
@@ -221,10 +197,6 @@ def ks_chord(chord, N, alpha):
         x = np.random.randn(int(np.round(float(Fs) / freq(note))))
         y = y + gain * KS(x, N, alpha)
     return y  
-
-
-# In[23]:
-
 
 # A Hard Day's Night's chord
 hdn_chord = {
