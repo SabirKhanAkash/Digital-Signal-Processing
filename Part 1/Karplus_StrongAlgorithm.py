@@ -1,13 +1,8 @@
-
-# coding: utf-8
-
 # # The Karplus-Strong Algorithm
 # 
 # The Karplus-Strong algorithm is a simple digital feedback loop with an internal buffer of $M$ samples. The buffer is filled with a set of initial values and the loop, when running, produces an arbitraryly long output signal. Although elementary, the K-S loop can be used to synthesize interesting musical sounds as we will see in this notebook.
 # 
 # Let's start with a basic implementation of the K-S loop:
-
-# In[1]:
 
 
 def KS_1(x, N):
@@ -24,17 +19,12 @@ def KS_1(x, N):
 
 # OK, let's try it out right away! Yet, however impatient we may be, we still need to do a few things. First we need to include the necessary Python libraries: 
 
-# In[2]:
-
 
 get_ipython().magic('matplotlib inline')
 import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
 import IPython
-
-
-# In[3]:
 
 
 plt.rcParams["figure.figsize"] = (14,4)
