@@ -52,10 +52,6 @@ plt.stem(y[0:500]);
 
 IPython.display.Audio(y, rate=Fs)
 
-
-# In[8]:
-
-
 # let's play an octave lower: just double the initial buffer's length
 IPython.display.Audio(KS_1(np.random.rand(100), Fs * 2), rate=Fs)
 
@@ -92,10 +88,6 @@ def KS_2(x, N):
     for n in range(0, N):
         y[n] = (x[n] if n < M else 0) + (y[n-M] if n-M >= 0 else 0)
     return y
-
-
-# In[10]:
-
 
 # it should still work
 IPython.display.Audio(KS_2(np.random.rand(50), Fs * 2), rate=Fs)
