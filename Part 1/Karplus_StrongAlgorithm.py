@@ -29,11 +29,7 @@ import IPython
 
 plt.rcParams["figure.figsize"] = (14,4)
 
-
 # Then, since we're playing audio, we need to set the internal "clock" of the system, aka the sampling rate:
-
-# In[4]:
-
 
 Fs = 16000 # 16 KHz sampling rate
 
@@ -42,25 +38,16 @@ Fs = 16000 # 16 KHz sampling rate
 # 
 # We still haven't talked about what to use as the initial values for the buffer. Well, the cool thing about K-S is that we can use pretty much anything we want; as a matter of fact, using random values will give you a totally fine sound. As a proof, consider this initial data set:
 
-# In[5]:
-
-
 b = np.random.randn(50)
 plt.stem(b);
 
 
 # Let's now generate a 2-second audio clip:
 
-# In[6]:
-
-
 y = KS_1(b, Fs * 2)
 
 # we can look at a few periods:
 plt.stem(y[0:500]);
-
-
-# In[7]:
 
 
 IPython.display.Audio(y, rate=Fs)
