@@ -41,7 +41,6 @@ Fs = 16000 # 16 KHz sampling rate
 b = np.random.randn(50)
 plt.stem(b);
 
-
 # Let's now generate a 2-second audio clip:
 
 y = KS_1(b, Fs * 2)
@@ -54,7 +53,6 @@ IPython.display.Audio(y, rate=Fs)
 
 # let's play an octave lower: just double the initial buffer's length
 IPython.display.Audio(KS_1(np.random.rand(100), Fs * 2), rate=Fs)
-
 
 # OK, so the K-S algorithm works! From the signal processing point of view, we can describe the system with the following block diagram (neglect the factor $\alpha$ for a moment)
 # 
