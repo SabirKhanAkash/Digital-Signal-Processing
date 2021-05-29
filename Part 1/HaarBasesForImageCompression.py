@@ -110,9 +110,6 @@ img[:,0]
 # 
 # The canonical basis for any matrix space $\mathbb{R}^{M\times N}$ is the set of "delta" matrices where only one element equals to one while all the others are 0. Let's call them $\mathbf{E}_n$ with $0 \leq n < MN$. Here is a function to create the canonical basis vector given its index:
 
-# In[7]:
-
-
 def canonical(n, M=5, N=10):
     e = np.zeros((M, N))
     e[(n % M), int(n / M)] = 1
@@ -120,9 +117,6 @@ def canonical(n, M=5, N=10):
 
 
 # Here are some basis vectors: look for the position of white pixel, which differentiates them and note that we enumerate pixels column-wise:
-
-# In[8]:
-
 
 plt.matshow(canonical(0));
 plt.matshow(canonical(1));
@@ -134,9 +128,6 @@ plt.matshow(canonical(49));
 # Suppose we want to transmit the "cameraman" image over a communication channel. The intuitive way to do so is to send the  pixel values one by one, which corresponds to sending the coefficients of the decomposition of the image over the canonical basis. So far, nothing complicated: to send the cameraman image, for instance, we will send $64\times 64 = 4096$ coefficients in a row. 
 # 
 # Now suppose that a communication failure takes place after the first half of the pixels have been sent. The received data will allow us to display an approximation of the original image only. If we replace the missing data with zeros, here is what we would see, which is not very pretty:
-
-# In[9]:
-
 
 # unrolling of the image for transmission (we go column by column, hence "F")
 tx_img = np.ravel(img, "F")
@@ -161,9 +152,6 @@ plt.matshow(rx_img);
 # One such basis is the **Haar basis**. We cannot go into too many details in this notebook but, for the curious, a good starting point is [here](https://chengtsolin.wordpress.com/2015/04/15/real-time-2d-discrete-wavelet-transform-using-opengl-compute-shader/). Mathematical formulas aside, the Haar basis works by encoding the information in a *hierarchical* way: the first basis vectors encode the broad information and the higher coefficients encode the detail. Let's have a look. 
 # 
 # First of all, to keep things simple, we will remain in the space of square matrices whose size is a power of two. The code to generate the Haar basis matrices is the following: first we generate a 1D Haar vector and then we obtain the basis matrices by taking the outer product of all possible 1D vectors (don't worry if it's not clear, the results are what's important):
-
-# In[10]:
-
 
 def haar1D(n, SIZE):
     # check power of two
