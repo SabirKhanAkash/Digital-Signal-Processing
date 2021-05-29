@@ -56,9 +56,6 @@
 # 
 # Although the matrix and vector forms represent exactly the same data, the matrix form allows us to display the data in the form of an image. Assume each value in the matrix is a grayscale intensity, where zero is black and 255 is white; for example we can create a checkerboard pattern of any size with the following function:
 
-# In[1]:
-
-
 # usual pyton bookkeeping...
 get_ipython().magic('matplotlib inline')
 import matplotlib
@@ -69,14 +66,8 @@ from IPython.display import Image
 import math
 
 
-# In[3]:
-
-
 # ensure all images will be grayscale
 plt.gray();
-
-
-# In[4]:
 
 
 # let's create a checkerboard pattern
@@ -104,17 +95,11 @@ plt.matshow(img);
 # 
 # Conveniently, using IPython, we can read images from disk in any given format and convert them to numpy arrays; let's load and display for instance a JPEG image:
 
-# In[5]:
-
-
 img = np.array(plt.imread('cameraman.jpg'), dtype=int)
 plt.matshow(img);
 
 
 # The image is a $64\times 64$ low-resolution version of the famous "cameraman" test picture. Out of curiosity, we can look at the first column of this image, which is is a $64×1$ vector:
-
-# In[6]:
-
 
 img[:,0]
 
