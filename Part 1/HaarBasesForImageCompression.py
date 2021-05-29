@@ -194,9 +194,6 @@ def haar2D(n, SIZE=8):
 
 # First of all, let's look at a few basis matrices; note that the matrices have positive and negative values, so that the value of zero will be represented as gray:
 
-# In[11]:
-
-
 plt.matshow(haar2D(0));
 plt.matshow(haar2D(1));
 plt.matshow(haar2D(10));
@@ -210,9 +207,6 @@ plt.matshow(haar2D(63));
 # 
 # We can immediately verify that the Haar matrices are orthogonal:
 
-# In[12]:
-
-
 # let's use an 8x8 space; there will be 64 basis vectors
 # compute all possible inner product and only print the nonzero results
 for m in range(0,64):
@@ -223,9 +217,6 @@ for m in range(0,64):
 
 
 # OK! Everything's fine. Now let's transmit the "cameraman" image: first, let's verify that it works
-
-# In[13]:
-
 
 # project the image onto the Haar basis, obtaining a vector of 4096 coefficients
 # this is simply the analysis formula for the vector space with an orthogonal basis
@@ -244,9 +235,6 @@ plt.matshow(rx_img);
 
 # Cool, it works! Now let's see what happens if we lose the second half of the coefficients:
 
-# In[14]:
-
-
 # oops, we lose half the data
 lossy_img = np.copy(tx_img);
 lossy_img[int(len(tx_img)/2):] = 0
@@ -262,8 +250,6 @@ plt.matshow(rx_img);
 # That's quite remarkable, no? We've lost the same amount of information as before but the image is still acceptable. This is because we lost the coefficients associated to the fine details of the image but we retained the "broad strokes" encoded by the first half. 
 # 
 # Note that if we lose the first half of the coefficients the result is markedly different:
-
-# In[15]:
 
 
 lossy_img = np.copy(tx_img);
