@@ -38,14 +38,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-# In[2]:
-
-
 plt.rcParams["figure.figsize"] = (14,4)
-
-
-# In[3]:
-
 
 def dft_matrix(N):
     # create a 1xN matrix containing indices 0 to N-1
@@ -58,9 +51,6 @@ def dft_matrix(N):
 
 
 # Let's try it out on a short signal and verify the invertibility of the transform
-
-# In[5]:
-
 
 x = np.array([5, 7, 9])
 
@@ -112,18 +102,11 @@ print(x-x_hat)
 # 
 # However, let's see what happens if we compute all of this numerically:
 
-# In[6]:
-
-
 N = 128
 x = np.zeros(N)
 x[0:64] = 1
 
 plt.stem(x);
-
-
-# In[7]:
-
 
 W = dft_matrix(N);
 
@@ -138,9 +121,6 @@ plt.stem(np.angle(X));
 # Clearly we have a problem with the phase, although the magnitude looks nice. This is inherent to the fact that the phase is computed by taking the arctangent of a ratio. When the computed DFT values are close to zero, the denominator of the ratio will be also close to zero and any numerical error in its value will lead to large errors in the phase. As we will see in the next section, this problem can be alleviated by using smarter algorithms than the direct naive method.
 # 
 # Let's still verify the inverse DFT:
-
-# In[8]:
-
 
 x_hat = np.dot(W.T.conjugate(), X) / N
 
@@ -158,9 +138,6 @@ plt.stem(np.imag(x_hat));
 # The FFT algorithm is not only much faster than the direct method but it's also better conditioned numerically. This is because in the FFT implementation great care is applied to minimizing the number of trigonometric factors.
 # 
 # As you can see in the examples below, the phase is now accurate and the reconstruction error is almost two orders of magnitude smaller, basically equal to the numerical precision of floating point variables. 
-
-# In[9]:
-
 
 X = np.fft.fft(x)
 x_hat = np.fft.ifft(X)
