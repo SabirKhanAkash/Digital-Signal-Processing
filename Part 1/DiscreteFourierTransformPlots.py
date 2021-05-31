@@ -25,23 +25,13 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-# In[2]:
-
-
 plt.rcParams["figure.figsize"] = (14,4)
 
 
 # Typically, we will take a vector of data points, compute the DFT and plot the magnitude of the result. For instance, consider the DFT of a linear ramp:
 
-# In[3]:
-
-
 x = np.arange(0, 1.02, 0.02) - 0.5
 plt.stem(x)
-
-
-# In[4]:
-
 
 X = np.fft.fft(x);
 plt.stem(abs(X));
@@ -68,8 +58,6 @@ plt.stem(abs(X));
 # 
 # Here is a function that does that:
 
-# In[5]:
-
 
 def dft_shift(X):
     N = len(X)
@@ -81,15 +69,10 @@ def dft_shift(X):
         return np.concatenate((X[int((N+1)/2):], X[:int((N-1)/2)]))
 
 
-# In[6]:
-
-
 plt.stem(abs(dft_shift(X)));
 
 
 # While the function does shift the vector, the indices are still from zero to $N-1$. Let's modify it so that we returs also the proper values for the indices:
-
-# In[7]:
 
 
 def dft_shift(X):
@@ -102,9 +85,6 @@ def dft_shift(X):
         return np.arange(-int((N-1)/2), int((N-1)/2) + 1), np.concatenate((X[int((N+1)/2):], X[:int((N+1)/2)]))
 
 
-# In[8]:
-
-
 n, y = dft_shift(X)
 plt.stem(n, abs(y));
 
@@ -114,8 +94,6 @@ plt.stem(n, abs(y));
 # The next step is to use the DFT to analyze real-world signals. As we have seen in previous examples, what we need to do is set the time interval between samples or, in other words, set the "clock" of the system. For audio, this is equivalent to the sampling rate of the file.
 # 
 # Here for instance is the sound of a piano
-
-# In[9]:
 
 
 import IPython
@@ -130,8 +108,6 @@ IPython.display.Audio(x, rate=Fs)
 # 
 # Let's remap the DFT coefficients using the sampling rate:
 
-# In[10]:
-
 
 def dft_map(X, Fs, shift=True):
     resolution = float(Fs) / len(X)
@@ -144,9 +120,6 @@ def dft_map(X, Fs, shift=True):
     return f, Y
 
 
-# In[11]:
-
-
 # let's cut the signal otherwise it's too big
 x = x[:32768]
 X = np.fft.fft(x);
@@ -156,8 +129,6 @@ plt.plot(f, abs(y));
 
 # The plot shows what a spectrum analyzer would display. We can see the periodic pattern in the sound, like for all musical tones. If we want to find out the original pitch we need to zoom in in the plot and find the first peak. This is one of the instances in which shifting the DFT does not help, since we'll be looking in the low-frequency range. So let's re-plot withouth the shift, but still mapping the frequencies:
 
-# In[12]:
-
 
 X = np.fft.fft(x);
 f, y = dft_map(X, Fs, shift=False)
@@ -165,9 +136,6 @@ plt.plot(f[:2000], abs(y[:2000]));
 
 
 # We can see that the first peak is in the vicinity of 200Hz; to find the exact frequency (to within the resolution afforded by this DFT) let's find the location
-
-# In[15]:
-
 
 dft_resolution = float(Fs)/ len(x)
 print("DFT resolution is", dft_resolution, "Hz")
@@ -195,8 +163,6 @@ print("the note has a pitch of", pitch, "Hz")
 # 
 # Let's build a signal with two sinusoids with frequencies more than $\Delta$ apart and let's look at the spectrum:
 
-# In[16]:
-
 
 N = 256
 Delta = 2*np.pi / N
@@ -211,8 +177,6 @@ plt.plot(abs(np.fft.fft(x))[:100]);
 
 # we can tell the two frequencies apart and, if you zoom in on the plot, you will see that they are indeed three indices apart. Now let's build a signal with two frequencies that are less than $\Delta$ apart:
 
-# In[17]:
-
 
 x = np.cos(omega * n) + np.cos((omega + 0.5*Delta) * n)
 plt.plot(abs(np.fft.fft(x))[:100]);
@@ -220,15 +184,6 @@ plt.plot(abs(np.fft.fft(x))[:100]);
 
 # The two frequencies cannot be resolved by the DFT. If you try to increase the data vector by zero padding, the plot will still display just one peak:
 
-# In[18]:
-
 
 xzp = np.concatenate((x, np.zeros(2000)))
 plt.plot(abs(np.fft.fft(xzp))[:500]);
-
-
-# In[ ]:
-
-
-
-
