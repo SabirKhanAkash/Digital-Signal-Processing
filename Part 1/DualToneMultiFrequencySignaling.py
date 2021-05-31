@@ -37,8 +37,6 @@
 # 
 # The first thing to do is to write a DTMF encoder.
 
-# In[1]:
-
 
 # first our usual bookkeeping
 get_ipython().magic('matplotlib inline')
@@ -47,21 +45,11 @@ import matplotlib.pyplot as plt
 import numpy as np
 import IPython
 
-
-# In[2]:
-
-
 plt.rcParams["figure.figsize"] = (14,4)
-
-
-# In[3]:
 
 
 # the "clock" of the system
 FS = 24000
-
-
-# In[4]:
 
 
 def dtmf_dial(number):
@@ -83,9 +71,6 @@ def dtmf_dial(number):
 
 # OK, that was easy. Let's test it and evaluate it "by ear":
 
-# In[5]:
-
-
 x=dtmf_dial('123##45')
 
 IPython.display.Audio(x, rate=FS)
@@ -103,16 +88,10 @@ IPython.display.Audio(x, rate=FS)
 # 
 # Let's see how we can do that; let's look at the raw data first
 
-# In[6]:
-
-
 plt.plot(x);
 
 
 # OK so, clearly, we should be able to find the high and low energy sections of the signal. Let's say that we use an analysis window of 240 samples which, at our $F_s$ corresponds to an interval of 10ms. We can easily find the local energy like so:
-
-# In[7]:
-
 
 # split the signal in 240-sample chunks and arrange them as rows in a matrix
 # (truncate the data vector to a length multiple of 240 to avoid errors)
@@ -125,9 +104,6 @@ plt.plot(we);
 
 
 # From the plot, it appears clearly that we can set a threshold of about 200 to separate tone sections from silence sections. Let's write a function that returns the start and stop indices of the tone sections in an input signal
-
-# In[8]:
-
 
 def dtmf_split(x, win=240, th=200):
     edges = []
@@ -151,24 +127,16 @@ def dtmf_split(x, win=240, th=200):
     return edges
 
 
-# In[9]:
-
-
 print(dtmf_split(x))
 
 
 # Looks good. Now that we have a splitter, let's run a DFT over the tone sections and find the DTMF frequencies that are closest to the peaks of the DFT magnitude. The "low" DTMF frequencies are in the 697 Hz to 941 Hz range, while the high frequencies in the 1209 Hz to 1477 Hz range, so we will look for a DFT peak in each of those intervals. For instance, let's look at the first tone, and let's look at the peaks in the DFT:
-
-# In[10]:
-
 
 X = abs(np.fft.fft(x[0:2400]))
 plt.plot(X[0:500]);
 
 
 # We clearly have identifiable peaks. The only thing we need to pay attention to is making sure that we map real-world frequencies to the DFT plot correctly (and vice versa).
-
-# In[11]:
 
 
 def dtmf_decode(x, edges = None):
@@ -213,9 +181,6 @@ def dtmf_decode(x, edges = None):
     return number
 
 
-# In[12]:
-
-
 dtmf_decode(x)
 
 
@@ -225,15 +190,9 @@ dtmf_decode(x)
 # 
 # For instance, listen to the following noise-corrupted version of the original signal. Although the tones are still detectable by ear, the segmentation algorithm fails and returns a single digit.
 
-# In[13]:
-
-
 noisy = x + np.random.uniform(-2, 2, len(x))
 
 IPython.display.Audio(noisy, rate=FS)
-
-
-# In[14]:
 
 
 dtmf_decode(noisy)
@@ -241,23 +200,17 @@ dtmf_decode(noisy)
 
 # If we **carefully** change the segmentation threshold, we can still decode
 
-# In[15]:
-
 
 dtmf_decode(x, dtmf_split(x, th=220))
 
 
 # but if we're not careful...
 
-# In[16]:
-
 
 dtmf_decode(x, dtmf_split(x, th=250))
 
 
 # The sensitivity to the segmentation threshold confirms the fact that segmentation should be performed using more sophisticated techniques, which we will see in the future.
-
-# In[ ]:
 
 
 
