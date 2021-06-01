@@ -95,9 +95,6 @@ IPython.display.Audio(prepare(xrp), rate=Fs)
 
 # OK, so it seems that phase is not important after all. To check once again, run the following notebook cell as many times as you want and see if you can tell the difference between the original zero-phase and a random-phase sustained note (the phases will be different every time you run the cell):
 
-# In[54]:
-
-
 xrp = clarinet(D4, np.random.rand(6) * TWOPI)
 plt.plot(xrp[0:300])
 plt.show()  
@@ -118,9 +115,6 @@ IPython.display.display(IPython.display.Audio(prepare(xrp), rate=Fs))
 # 
 # Consider for instance a piano note: the attack time is very quick (the hammer hits the string); the decay is quite rapid as the string settles into harmonic equilibrium but there is no sustain since once the hammer hits, the stimulation ends. So a piano note has a distinct volume envelope that rises very fast and then releases slowly:
 
-# In[55]:
-
-
 from scipy.io import wavfile
 Fs, x = wavfile.read("piano.wav")
 plt.plot(x)
@@ -131,8 +125,6 @@ IPython.display.Audio(x, rate=Fs)
 # By now we know that the "shape" of a waveform is largely encoded in the phase. It is no surprise, therefore, that if we mess up with the phase of the piano sample above, we will get something that looks very different.
 # 
 # To see this, let's take the DFT of the audio data, set the phase to zero and take the IDFT:
-
-# In[56]:
 
 
 # first some prep work; let's make sure that
@@ -146,9 +138,6 @@ if len(x) % 2 != 0:
 mv = int(max(abs(x)) * 1.2)
 
 
-# In[57]:
-
-
 # Let's take the Fourier transform
 X = np.fft.fft(x)
 
@@ -158,9 +147,6 @@ plt.plot(np.abs(X[0:int(len(X)/2)]))
 plt.show() 
 
 
-# In[58]:
-
-
 # now we set the phase to zero; we just need to
 #  take the magnitude of the DFT
 xzp = np.fft.ifft(np.abs(X))
@@ -168,9 +154,6 @@ xzp = np.fft.ifft(np.abs(X))
 # in theory, xzp should be real; however, because
 #  of numerical imprecision, we're left with some imaginary crumbs:
 print (max(np.imag(xzp)) / max(np.abs(xzp)))
-
-
-# In[59]:
 
 
 # the imaginary part is negligible, as expected, 
@@ -186,16 +169,11 @@ plt.show()
 # 
 # If we play the waveform, we can hear that the pitch and some of the timbral quality have been preserved (after all, the magnitude spectrum is the same), but the typical piano-like envelope has been lost.
 
-# In[60]:
-
 
 IPython.display.Audio(prepare(xzp, mv), rate=Fs)
 
 
 # We can amuse ourselves with even more brutal phase mangling: let's for instance set a random phase for each DFT component. The only tricky thing here is that we need to preserve the Hermitian symmetry of the DFT in order to have a real-valued time-domain signal:
-
-# In[61]:
-
 
 # we know the signal is even-length so we need to build
 #  a phase vector of the form [0 p1 p2 ... pM -pM ... -p2 -p1]
@@ -211,9 +189,6 @@ xrp = np.fft.ifft(X * np.exp(ph))
 print (max(np.imag(xrp))/max(np.abs(xrp)))
 
 
-# In[62]:
-
-
 xrp = np.real(xrp)
 plt.plot(xrp)
 plt.show()
@@ -222,8 +197,6 @@ IPython.display.Audio(prepare(xrp, mv), rate=Fs)
 
 
 # Pretty bad, eh? So, in conclusion, phase is very important to the temporal aspects of the sound, but not so important for sustained sounds. In fact, the brain processes the temporal and spectral cues of sound very differently: when we concentrate on attacks and sound envelope, the brain uses time-domain processing, whereas for pitch and timbre, it uses primarily the magnitude of the spectrum!
-
-# In[ ]:
 
 
 
