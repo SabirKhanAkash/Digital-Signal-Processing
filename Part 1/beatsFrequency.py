@@ -5,9 +5,6 @@
 # 
 # This simple notebook will let you play with close frequencies and hear the beatings created by intermodulation. It's also a cute example of the interactivity you can achieve with notebooks.
 
-# In[1]:
-
-
 # standard bookkeeping
 get_ipython().magic('matplotlib inline')
 import matplotlib.pyplot as plt
@@ -19,16 +16,10 @@ from ipywidgets import interact, interactive, fixed, interact_manual
 import ipywidgets as widgets
 
 
-# In[2]:
-
-
 plt.rcParams["figure.figsize"] = (14,4)
 
 
 # Let's define a simple fuction that generates, plots and plays two sinusoids at the given frequencies:
-
-# In[3]:
-
 
 def beat_freq(f1=220.0, f2=224.0):
     # the clock of the system
@@ -44,29 +35,4 @@ def beat_freq(f1=220.0, f2=224.0):
     # display one second of audio
     plt.plot(s[0:int(Fs)])
 
-
-# In[4]:
-
-
 interact(beat_freq, f1=(200.0,300.0), f2=(200.0,300.0));
-
-
-# In[ ]:
-
-
-
-
-
-
-
-
-
-
-
-
-
-# In[ ]:
-
-
-
-
