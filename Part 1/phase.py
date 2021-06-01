@@ -7,9 +7,6 @@
 # 
 # But is it really so? Let's find out.
 
-# In[18]:
-
-
 get_ipython().magic('matplotlib inline')
 import matplotlib
 import matplotlib.pyplot as plt
@@ -17,17 +14,10 @@ import numpy as np
 import IPython
 from scipy.io import wavfile
 
-
-# In[19]:
-
-
 plt.rcParams["figure.figsize"] = (14,4)
 
 
 # We will be synthesizing audio clips so let's set the sampling rate for the rest of the not:
-
-# In[20]:
-
 
 Fs = 16000 # sampling freqency
 TWOPI = 2 * np.pi
@@ -36,8 +26,6 @@ TWOPI = 2 * np.pi
 # We will be synthesizing and playing audio clips so let's define a convenience function to "beautify" the resulting sound: basically, we want a gentle fade-in and fade-out to avoid abrupt "clicks" when the waveform begins and ends. 
 # 
 # Also, there is a "bug" in the current version of IPython whereby audio data is forcibly normalized prior to playing (see [here](https://github.com/ipython/ipython/issues/8608) for details; this may have been solved in the meantime). On the other hand, we want to avoid normalization in order to keep control over the volume of the sound. A way to do so is to make sure that all audio clips have at least one sample at a pre-defined maximum value, and this value is the same for all clips. To do so we add a slow "tail" to the data which will not result in an audible sound but will set a common maximum value in all clips.
-
-# In[1]:
 
 
 def prepare(x, max_value = 3):
@@ -63,9 +51,6 @@ def prepare(x, max_value = 3):
 # 
 # A clarinet-like sustained sound will contain frequencies at odd multiples of the fundamental. We will just keep the fundamental and five harmonics and we be able to specify the initial phase offset for each component:
 
-# In[50]:
-
-
 def clarinet(f, phase = []):
     # length in seconds of audio clips
     T = 3
@@ -84,10 +69,6 @@ def clarinet(f, phase = []):
         x += h * np.sin(phase[k] + TWOPI * (2*k + 1) * (float(f)/Fs) * n)
     return x
 
-
-# In[51]:
-
-
 # fundamental frequency: D4
 D4 = 293.665
 x = clarinet(D4)
@@ -102,17 +83,11 @@ IPython.display.Audio(prepare(x), rate=Fs)
 
 # Ok, so it's not the best clarinet sound in the universe but it's not bad for just a few lines of code. Now let's see how changing the phase affects the sound. Let's just use random phase offsets for the components: we can see that the waveform doesn't look too nice anymore:
 
-# In[52]:
-
 
 xrp = clarinet(D4, [3.84, 0.90, 3.98, 4.50, 4.80, 2.96])
 
 plt.plot(xrp[0:300])
 plt.show()
-
-
-# In[53]:
-
 
 # but if we play it, it sounds the same!    
 IPython.display.Audio(prepare(xrp), rate=Fs)
